@@ -94,10 +94,9 @@ nav h1 {
 #games {
     display: flex;
     flex-wrap: wrap;
+    gap: 1.5vw;
     justify-content: center;
-    margin-top: .6vw;
-    padding-bottom: 5vw;
-
+    margin-top: 2vw;
 }
  
 #games img {    height: 15.6vw;
@@ -115,12 +114,10 @@ nav h1 {
 
 .featured {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
+    gap: 2vw;
     justify-content: center;
-    padding: 1vw;
-    margin:1%;
-    margin-top: 6vw;
+    padding: 2vw;
 }
 
 .featured h1 {
@@ -135,16 +132,16 @@ nav h1 {
 .featured .column {
     display: flex;
     flex-direction: column;
+    gap: 1vw;
 }
 
 .featured img {
     height: 12.5vw;
     width: 12.5vw;
     border-radius: 1vw;
-    margin: .5vw;
+    margin: 0.5vw;
     cursor: pointer;
-    user-select: none;
-    transition: all .2s;
+    transition: transform 0.2s;
 }
 
 .featured img:hover {
@@ -170,9 +167,9 @@ nav h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 0.2s;
-    }
+    opacity: 0.7;
+    transition: opacity 0.3s;
+	}
     
     .featured a:hover .play-button {
     opacity: 1;
