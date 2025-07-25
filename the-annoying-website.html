@@ -8,8 +8,8 @@
         /* --- Base Styles --- */
         body {
             font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
-            overflow: hidden; /* Hide scrollbars to make our custom scroll even more confusing */
-            cursor: none; /* Hide the real cursor */
+            /* overflow: hidden; -- REMOVED to restore scrolling */
+            /* cursor: none; -- REMOVED to restore cursor */
             user-select: none; /* Prevent text selection */
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -46,20 +46,8 @@
             padding-bottom: 3px;
         }
 
-        /* --- The Fake Cursor --- */
-        #fake-cursor {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 30px;
-            height: 30px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="red" d="M16 0L0 28h32L16 0z"/><path fill="yellow" d="M16 4L4 26h24L16 4z"/></svg>');
-            background-size: contain;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s;
-        }
-
+        /* --- The Fake Cursor (CSS Removed) --- */
+        
         /* --- The Uncatchable Button --- */
         #runaway-btn {
             position: absolute;
@@ -151,38 +139,19 @@
         #submit-form { font-size: 20px; padding: 10px 20px; margin-top: 15px; }
 
         /* --- Ending Specific Styles --- */
-        #bsod {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #0000AA; color: white; font-family: 'Lucida Console', 'Consolas', monospace;
-            z-index: 10000; padding: 20px; display: none;
-        }
+        #bsod, #hyperspace, #share-modal, #clippy-container { display: none; }
+        #bsod { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #0000AA; color: white; font-family: 'Lucida Console', 'Consolas', monospace; z-index: 10000; padding: 20px; }
         #bsod h1 { font-size: 24px; background-color: #AAAAAA; color: #0000AA; display: inline; padding: 0 10px; }
         #bsod p { font-size: 16px; margin-top: 30px; }
-        
-        #clippy-container {
-            position: fixed; bottom: 50px; right: 50px; z-index: 10002; display: none;
-        }
-        #clippy-bubble {
-            background: #ffc; border: 1px solid black; padding: 20px; border-radius: 10px;
-            box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
-        }
+        #clippy-container { position: fixed; bottom: 50px; right: 50px; z-index: 10002; }
+        #clippy-bubble { background: #ffc; border: 1px solid black; padding: 20px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.5); }
         #clippy-img { width: 100px; height: auto; display: block; margin: 10px auto 0; cursor: pointer; }
-
-        #share-modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90%; max-width: 500px;
-            background: #333; color: white; border: 5px solid magenta; border-radius: 15px;
-            padding: 25px; text-align: center; z-index: 10002;
-            box-shadow: 0 0 30px black;
-        }
+        #share-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; background: #333; color: white; border: 5px solid magenta; border-radius: 15px; padding: 25px; text-align: center; z-index: 10002; box-shadow: 0 0 30px black; }
         #share-modal h2 { margin-top: 0; color: lime; }
         #share-modal p { word-break: break-all; background: #222; padding: 10px; border-radius: 5px; }
         #share-modal button { font-size: 18px; padding: 10px 20px; background: lime; color: black; border: none; border-radius: 5px; }
-        
-        #hyperspace {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: black; z-index: 10000; display: none;
-        }
+        #hyperspace { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 10000; }
+        #true-annoyance-btn { position: fixed; bottom: 0; right: 0; width: 1px; height: 1px; opacity: 0.01; z-index: 10002; }
     </style>
 </head>
 <body>
@@ -191,9 +160,6 @@
         <h3>Unlocked Endings</h3>
         <ul id="endings-list"></ul>
     </div>
-
-    <!-- The fake cursor that jumps around -->
-    <div id="fake-cursor"></div>
 
     <!-- The main scrollable content -->
     <div id="content-wrapper">
@@ -221,9 +187,10 @@
             <p>There are secrets hidden in the very fabric of this page. Patterns in the chaos. The classic masters knew of these patterns. Up, up, down, down... you know the rest. Or do you? Maybe the code has changed. Maybe it's different for every visitor. The only way to know is to try.</p>
             <p>Consider the humble popup. Is it a nuisance? Or is it an opportunity? A fleeting chance to interact before it vanishes. Some are traps, some are treasures. A wise user learns to tell the difference. A foolish one just keeps clicking. Which one are you? The answer may lie in the rejection of what is offered.</p>
             <p>We believe in giving back to the community. That's why we've hidden a special 'donation' feature somewhere on this page. If you can find it and prove your generosity, you might be rewarded. But be warned, true generosity is about giving without expecting anything in return. Especially when you're giving to us.</p>
-            <p>Time is a construct. On this website, it flows differently. Sometimes fast, sometimes slow. Pay attention to the passage of time. Certain events may only trigger at a specific moment. A witching hour, perhaps? Or maybe just when you're about to give up. Patience is a virtue, and we are here to teach it.</p>
-            <p>The URL in your address bar... is it just a location? Or is it a key? Sometimes, adding a little something extra to the end of a URL can unlock new paths. A query, a parameter, a secret word. The possibilities are as endless as your frustration.</p>
-            <p>Have you tried talking to the page? Not out loud, of course. We're not that advanced. Yet. But your keyboard is a powerful tool of communication. Typing isn't just for forms. The entire page is listening. What happens if you type 'abracadabra' or 'sesame'? Nothing? Oh well, it was worth a shot. Maybe try something more... explosive.</p>
+            <p>This page demands your full attention. Look away for too long, and you might find things are not as you left them. A watched pot never boils, but an unwatched website... it might just fall apart.</p>
+            <p>The page is listening. What happens if you type 'abracadabra' or 'sesame'? Nothing? Oh well, it was worth a shot. Maybe try something more... explosive. Or something that shines a 'light' on the situation. Sometimes, two is a crowd. A paradox can occur when two instances occupy the same space.</p>
+            <p>There is an image on this page that is broken. A missing link in the chain. A 404 in our hearts. Clicking on it might lead to... well, something.</p>
+            <img src="https://placehold.co/1x1/000000/000000?text=." alt="A tiny, broken image" id="broken-image" style="width:1px; height:1px; opacity: 0.1;">
             <p>This is the end of the text. Or is it? If you've read this far, you are a true connoisseur of annoyance. Your reward is this final paragraph. There is no secret ending tied to reading this. We're not that cruel. Or are we? The only way to find out is to keep trying everything. Good luck. You'll need it more than ever.</p>
         </div>
     </div>
@@ -238,7 +205,6 @@
     <script>
         // --- Get all the annoying elements ---
         const body = document.body;
-        const fakeCursor = document.getElementById('fake-cursor');
         const runawayBtn = document.getElementById('runaway-btn');
         const cookieBanner = document.getElementById('cookie-banner');
         const acceptCookiesBtn = document.getElementById('accept-cookies');
@@ -250,9 +216,9 @@
         const endingsList = document.getElementById('endings-list');
         const annoyingForm = document.getElementById('annoying-form');
         const submitBtn = document.getElementById('submit-form');
+        const brokenImage = document.getElementById('broken-image');
 
         let mouseX = 0, mouseY = 0;
-        let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
         let hasInteracted = false;
         let time = 0;
         let allIntervals = [];
@@ -260,6 +226,7 @@
 
         // --- Action Counters & State ---
         let popupCloseCount = 0;
+        let trapPopupCloseCount = 0;
         let checkboxClickCount = 0;
         let cookieAcceptCount = 0;
         let scrollState = { bottom: false, top: false };
@@ -272,6 +239,9 @@
         let typedWord = '';
         let lastClickTime = 0;
         let clickSpamCount = 0;
+        let idleTimer;
+        const tabId = Date.now() + Math.random();
+        let tabAwayTimer;
 
         // --- Endings Management ---
         let unlockedEndings = JSON.parse(localStorage.getItem('unlockedEndings')) || [];
@@ -283,6 +253,13 @@
                 li.textContent = ending;
                 endingsList.appendChild(li);
             });
+            // Check for the ultimate ending
+            if (uniqueEndings.length >= 40 && !unlockedEndings.includes("True Annoyance (How the f...)")) {
+                const trueBtn = document.createElement('button');
+                trueBtn.id = 'true-annoyance-btn';
+                trueBtn.addEventListener('click', endingTrueAnnoyance);
+                body.appendChild(trueBtn);
+            }
         }
         function unlockEnding(endingName) {
             if (unlockedEndings.includes(endingName)) return false; // Don't re-trigger
@@ -303,275 +280,154 @@
         
         function clearAllAnnoyances(isEnding = true) {
             allIntervals.forEach(clearInterval);
-            document.querySelectorAll('.popup, #cookie-banner, #fake-cursor').forEach(el => el.remove());
+            clearTimeout(idleTimer);
+            clearTimeout(tabAwayTimer);
+            document.querySelectorAll('.popup, #cookie-banner, #fake-cursor, #true-annoyance-btn').forEach(el => el.remove());
             if (isEnding) {
                 body.style.cursor = 'default'; // Make sure the real cursor comes back
             }
         }
 
-        // --- Existing Endings ---
-        function endingContentMeltdown() { if (unlockEnding("Content Meltdown")) { clearAllAnnoyances(); document.querySelectorAll('.content *').forEach(el => { el.style.transition = 'all 2s ease-in'; el.style.transform = `translate(${(Math.random() - 0.5) * 1000}px, ${(Math.random() - 0.5) * 1000}px) rotate(${Math.random() * 720}deg)`; el.style.opacity = '0'; el.style.fontSize = '1px'; }); }}
-        function endingElementInvasion() { if (unlockEnding("Element Invasion")) { clearAllAnnoyances(); body.innerHTML = ''; body.style.backgroundColor = 'black'; setAnnoyingInterval(() => { const invader = document.createElement('div'); invader.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:${Math.random()*100}vh; width:${Math.random()*20+5}px; height:${Math.random()*20+5}px; background:rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255}); border-radius:50%; z-index:10001;`; body.appendChild(invader); }, 10); }}
-        function endingFakeBSOD() { if (unlockEnding("System Crash (BSOD)")) { clearAllAnnoyances(); const bsod = document.createElement('div'); bsod.id = 'bsod'; bsod.innerHTML = `<h1> Windows </h1><p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) + 00010E36.</p><p>The current application will be terminated.</p><p>* Press any key to terminate the current application.</p><p>* Press CTRL+ALT+DEL again to restart your computer. You will lose any unsaved information in all applications.</p><br><p>Press any key to continue _</p>`; body.innerHTML = ''; body.appendChild(bsod); bsod.style.display = 'block'; }}
-        function endingAsciiRain() { if (unlockEnding("ASCII Rain")) { clearAllAnnoyances(); body.innerHTML = '<canvas id="matrix-canvas"></canvas>'; body.style.backgroundColor = 'black'; const canvas = document.getElementById('matrix-canvas'); const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%'; const fontSize = 16; const columns = canvas.width / fontSize; let drops = Array(Math.floor(columns)).fill(1); function drawMatrix() { ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#0F0'; ctx.font = `${fontSize}px monospace`; for (let i = 0; i < drops.length; i++) { const text = letters.charAt(Math.floor(Math.random() * letters.length)); ctx.fillText(text, i * fontSize, drops[i] * fontSize); if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0; drops[i]++; } } setInterval(drawMatrix, 33); }}
-        function endingPageFlip() { if (unlockEnding("Page Flipper")) { clearAllAnnoyances(); body.style.perspective = '1000px'; contentWrapper.style.transition = 'transform 0.5s'; let flipped = false; setInterval(() => { flipped = !flipped; contentWrapper.style.transform = `rotateY(${flipped ? 180 : 0}deg)`; }, 500); }}
-        function endingInvert() { if (unlockEnding("Color Inversion")) { clearAllAnnoyances(); document.documentElement.style.transition = 'filter 1s'; document.documentElement.style.filter = 'invert(1)'; }}
-        function endingTextScramble() { if (unlockEnding("Text Scrambler")) { clearAllAnnoyances(); const chars = '!<>-_\\/[]{}—=+*^?#________'; document.querySelectorAll('p, h1, h2, button, label').forEach(el => { const originalText = el.textContent; let frame = 0; const interval = setInterval(() => { el.textContent = originalText.split('').map((char, index) => { if (index < frame) return originalText[index]; const randomChar = chars[Math.floor(Math.random() * chars.length)]; return char !== ' ' ? randomChar : ' '; }).join(''); if (frame >= originalText.length) clearInterval(interval); frame++; }, 50); }); }}
-        function endingFakePurchase() { if (unlockEnding("Accidental Purchase")) { clearAllAnnoyances(); body.innerHTML = '<div style="text-align:center; padding-top:20vh; font-size: 2em; color: green;"><h1>Thank You!</h1><p>Your purchase of 1,000,000 rubber ducks has been confirmed.</p><p>A charge of $999,999.99 has been applied to your account.</p></div>'; setInterval(() => { const confetti = document.createElement('div'); confetti.textContent = '🎉'; confetti.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:-50px; font-size:${Math.random()*2+1}em; animation:fall 3s linear;`; document.body.appendChild(confetti); }, 100); const style = document.createElement('style'); style.innerHTML = `@keyframes fall{to{transform:translateY(110vh) rotate(360deg);}}`; document.head.appendChild(style); }}
-        function endingClippy() { if (unlockEnding("Clippy's Revenge")) { clearAllAnnoyances(); body.innerHTML += `<div id="clippy-container"><div id="clippy-bubble"><p>It looks like you're trying to use this website. Would you like some help with that?</p></div><img id="clippy-img" src="https://placehold.co/150x150/cccccc/000000?text=📎" alt="Clippy"></div>`; const clippyImg = document.getElementById('clippy-container'); clippyImg.style.display = 'block'; clippyImg.addEventListener('click', () => { alert('I am trying to help! Please do not resist.'); }); }}
-        function endingPageReload() { if (unlockEnding("Groundhog Day")) { window.location.reload(); }}
-        function endingRickroll() { if (unlockEnding("The Ultimate Betrayal")) { window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; }}
-        function endingShareEmbed() { if (unlockEnding("Going Viral")) { clearAllAnnoyances(); const metaTags = [ { property: 'og:title', content: "You WON'T BELIEVE What This Website Does!" }, { property: 'og:description', content: "I survived the most annoying website ever. Can you get all the endings?" }, { property: 'og:image', content: 'https://placehold.co/600x400/FF00FF/FFFFFF?text=Click+Me!' }, { property: 'og:url', content: window.location.href }, { name: 'theme-color', content: '#FF00FF' } ]; metaTags.forEach(tagInfo => { const meta = document.createElement('meta'); for (const key in tagInfo) { meta.setAttribute(key, tagInfo[key]); } document.head.appendChild(meta); }); const modal = document.createElement('div'); modal.id = 'share-modal'; modal.innerHTML = ` <h2>You've Gone Viral!</h2> <p>The page is now ready to be shared. Inflict this on your friends!</p> <p>${window.location.href}</p> <button id="copy-link-btn">Copy Link</button> `; body.appendChild(modal); document.getElementById('copy-link-btn').addEventListener('click', (e) => { e.target.innerText = "Copied! (Not really)"; }); }}
-
-        // --- NEW ENDINGS ---
-        function endingKonami() { if (unlockEnding("Konami Code")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: gold;"><h1>CHEAT MODE ACTIVATED</h1><p>+30 LIVES</p></div>`; }}
-        function endingWindowResize() { if (unlockEnding("Window Resizer")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: cyan;"><h1>Stop touching me!</h1></div>`; }}
-        function endingClickSpam() { if (unlockEnding("Click Spammer")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: orange;"><h1>Your mouse is on fire!</h1></div>`; }}
-        function endingWitchingHour() { if (unlockEnding("Witching Hour")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: purple;"><h1>You should be asleep.</h1></div>`; }}
-        function endingHyperspace() { if (unlockEnding("Hyperspace")) { clearAllAnnoyances(); const hs = document.createElement('div'); hs.id = 'hyperspace'; body.appendChild(hs); hs.style.display = 'block'; const canvas = document.createElement('canvas'); hs.appendChild(canvas); const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; let stars = []; for(let i=0; i<500; i++) { stars.push({x: Math.random() * canvas.width, y: Math.random() * canvas.height, z: Math.random() * canvas.width}); } function drawHyperspace() { ctx.fillStyle = 'black'; ctx.fillRect(0,0,canvas.width, canvas.height); ctx.fillStyle = 'white'; stars.forEach(star => { star.z -= 2; if(star.z <= 0) { star.z = canvas.width; } let k = 128 / star.z; let px = star.x * k + canvas.width/2; let py = star.y * k + canvas.height/2; if(px > 0 && px < canvas.width && py > 0 && py < canvas.height) { let size = (1 - star.z / canvas.width) * 5; ctx.fillRect(px, py, size, size); } }); requestAnimationFrame(drawHyperspace); } drawHyperspace(); }}
-        function endingRedacted() { if (unlockEnding("REDACTED")) { clearAllAnnoyances(); document.querySelectorAll('p, h1, h2, label, button').forEach(el => { el.style.color = 'black'; el.style.backgroundColor = 'black'; }); }}
-        function ending404() { if (unlockEnding("404 Not Found")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em;"><h1>404</h1><p>Ending not found. Just kidding, this is the ending.</p></div>`; }}
-        function endingGeocities() { if (unlockEnding("GeoCities Mode")) { clearAllAnnoyances(); body.style.background = "url('https://placehold.co/100x100/0000FF/FFFFFF?text=TILE') repeat"; body.innerHTML += `<marquee style="font-size: 3em; color: yellow; text-shadow: 2px 2px red;">WELCOME TO MY WEBSITE!!!</marquee><img src="https://placehold.co/200x50/FFFF00/000000?text=Under+Construction" style="display:block; margin: 20px auto;">`; }}
-        function endingStuckInThe90s() { if (unlockEnding("Stuck in the 90s")) { clearAllAnnoyances(); body.innerHTML = `<iframe src="https://www.spacejam.com/1996/" style="width:100vw; height:100vh; border:none;"></iframe>`; }}
-        function endingPetTheButton() { if (unlockEnding("You Pet the Button")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: pink;"><h1>The button is happy.</h1><p>It has stopped running away.</p></div>`; }}
-        function endingDoubleRainbow() { if (unlockEnding("Double Rainbow")) { clearAllAnnoyances(); const h1 = document.createElement('h1'); h1.textContent = "Double Rainbow All The Way!"; h1.style.animation = 'rainbow-text 2s linear infinite'; const h2 = h1.cloneNode(true); h2.style.marginTop = '50px'; body.appendChild(h1); body.appendChild(h2); }}
-        function endingTooManyPopups() { if (unlockEnding("Popup Overload")) { clearAllAnnoyances(false); for(let i=0; i<50; i++) { setTimeout(createPopup, i * 50); } }}
-        function endingTheVoid() { if (unlockEnding("The Void")) { clearAllAnnoyances(); body.style.transition = 'background-color 5s'; body.style.backgroundColor = 'black'; }}
-        function endingGravity() { if (unlockEnding("Gravity")) { clearAllAnnoyances(); document.body.style.transition = 'transform 2s'; document.body.style.transform = 'rotate(180deg)'; }}
-        function endingCensored() { if (unlockEnding("Censored")) { clearAllAnnoyances(); const beep = () => { if(!audioContext) return; const osc = audioContext.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(1000, audioContext.currentTime); osc.connect(audioContext.destination); osc.start(); osc.stop(audioContext.currentTime + 0.3); }; document.querySelectorAll('p, h1, h2, label, button').forEach(el => { const words = el.textContent.split(' '); el.textContent = words.map(w => Math.random() < 0.3 ? '████' : w).join(' '); }); setInterval(beep, 2000); }}
-        function endingLowQuality() { if (unlockEnding("Low Quality Mode")) { clearAllAnnoyances(); document.documentElement.style.filter = 'blur(2px) contrast(2)'; }}
-        function endingFireworks() { if (unlockEnding("Fireworks")) { clearAllAnnoyances(); body.style.backgroundColor = 'black'; setInterval(() => { const fw = document.createElement('div'); fw.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:${Math.random()*100}vh; width:5px; height:5px; background:white; border-radius:50%; box-shadow: 0 0 10px 5px white; animation: fw-explode 1s ease-out;`; body.appendChild(fw); setTimeout(()=>fw.remove(), 1000); }, 200); const style = document.createElement('style'); style.innerHTML = `@keyframes fw-explode{from{transform:scale(0); opacity:1;} to{transform:scale(30); opacity:0;}}`; document.head.appendChild(style); }}
-        function endingSolitaire() { if (unlockEnding("Solitaire Win")) { clearAllAnnoyances(); body.style.backgroundColor = '#008000'; const deck = document.createElement('div'); deck.style.cssText = `width: 71px; height: 96px; border: 1px solid black; background: blue; position: absolute; top: 10px; left: 10px;`; body.appendChild(deck); let cards = []; for(let i=0; i<52; i++) { const card = document.createElement('div'); card.style.cssText = `width: 71px; height: 96px; border: 1px solid black; background: white; position: absolute; top: 10px; left: 10px; transition: all 1s;`; body.appendChild(card); cards.push(card); } cards.forEach((card, i) => { setTimeout(() => { card.style.top = `${Math.random() * (window.innerHeight - 100)}px`; card.style.left = `${Math.random() * (window.innerWidth - 100)}px`; card.style.transform = `rotate(${Math.random() * 360}deg)`; }, i * 50); }); }}
-        function endingTheLighthouse() { if (unlockEnding("The Lighthouse")) { clearAllAnnoyances(); body.style.backgroundColor = 'black'; const beam = document.createElement('div'); beam.style.cssText = `position: fixed; top: 50%; left: 50%; width: 300vw; height: 200px; background: linear-gradient(to top, rgba(255,255,224,0.5), transparent); transform-origin: 0% 50%; animation: lighthouse-sweep 10s linear infinite;`; body.appendChild(beam); const style = document.createElement('style'); style.innerHTML = `@keyframes lighthouse-sweep{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}`; document.head.appendChild(style); }}
-        function endingTooFast() { if (unlockEnding("Too Fast")) { clearAllAnnoyances(); document.documentElement.style.animation = 'shake 0.1s linear infinite'; const style = document.createElement('style'); style.innerHTML = `@keyframes shake{0%,100%{transform:translateX(0);} 25%{transform:translateX(5px);} 75%{transform:translateX(-5px);}}`; document.head.appendChild(style); }}
-        function endingTrueAnnoyance() { if (unlockEnding("True Annoyance")) { clearAllAnnoyances(false); document.getElementById('endings-tracker').remove(); alert("You thought unlocking endings would save you? The true ending was the friends we annoyed along the way."); }}
-        function endingDeveloper() { if (unlockEnding("Developer Mode")) { clearAllAnnoyances(); body.innerHTML = `<pre style="color:lime; background:black; height:100vh; margin:0; padding:10px; font-family:monospace;">${document.documentElement.outerHTML.replace(/</g, '&lt;')}</pre>`; }}
-        function endingGoneFishing() { if (unlockEnding("Gone Fishing")) { clearAllAnnoyances(); body.style.backgroundColor = '#87CEEB'; body.innerHTML = `<div style="text-align:center; padding-top:40vh; font-size: 3em;">Gone Fishing. Come back later.</div>`; }}
-        function endingFlatEarth() { if (unlockEnding("Flat Earth Mode")) { clearAllAnnoyances(); body.style.perspective = 'none'; document.body.style.transform = 'none'; contentWrapper.style.transition = 'none'; contentWrapper.style.transform = 'none'; alert("The world is flat. All your fancy 3D effects are gone."); }}
-        function endingPiracy() { if (unlockEnding("Piracy is a Crime")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 2em; color: red;"><h1>FBI WARNING</h1><p>This website has been seized by the Federal Bureau of Investigation for copyright infringement.</p></div>`; }}
-        function endingPotato() { if (unlockEnding("Potato Mode")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:40vh;"><img src="https://placehold.co/200x200/DEB887/000000?text=🥔"></div>`; }}
-        function endingTheSun() { if (unlockEnding("The Sun")) { clearAllAnnoyances(); body.style.transition = 'background-color 10s'; body.style.backgroundColor = 'white'; }}
-        function endingTheMoon() { if (unlockEnding("The Moon")) { clearAllAnnoyances(); body.style.transition = 'background-color 10s'; body.style.backgroundColor = 'black'; document.body.innerHTML += `<div style="position:fixed; top:20px; right:20px; width:50px; height:50px; border-radius:50%; box-shadow: -10px 10px 0 0 white;"></div>`; }}
-        function endingMissingTexture() { if (unlockEnding("Missing Texture")) { clearAllAnnoyances(); body.style.background = 'repeating-conic-gradient(#FF00FF 0% 25%, #000000 0% 50%) 50% / 20px 20px'; }}
-        function endingFinalDestination() { if (unlockEnding("Final Destination")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:40vh; font-size: 3em; color: white; background: black; height: 100vh;">No items, Fox only, Final Destination.</div>`; }}
+        // --- Existing Endings (with new difficulties) ---
+        function endingContentMeltdown() { if (unlockEnding("Content Meltdown (Medium)")) { clearAllAnnoyances(); document.querySelectorAll('.content *').forEach(el => { el.style.transition = 'all 2s ease-in'; el.style.transform = `translate(${(Math.random() - 0.5) * 1000}px, ${(Math.random() - 0.5) * 1000}px) rotate(${Math.random() * 720}deg)`; el.style.opacity = '0'; el.style.fontSize = '1px'; }); }}
+        function endingElementInvasion() { if (unlockEnding("Element Invasion (Medium)")) { clearAllAnnoyances(); body.innerHTML = ''; body.style.backgroundColor = 'black'; setAnnoyingInterval(() => { const invader = document.createElement('div'); invader.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:${Math.random()*100}vh; width:${Math.random()*20+5}px; height:${Math.random()*20+5}px; background:rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255}); border-radius:50%; z-index:10001;`; body.appendChild(invader); }, 10); }}
+        function endingFakeBSOD() { if (unlockEnding("System Crash (BSOD) (Easy)")) { clearAllAnnoyances(); const bsod = document.createElement('div'); bsod.id = 'bsod'; bsod.innerHTML = `<h1> Windows </h1><p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) + 00010E36.</p><p>The current application will be terminated.</p><p>* Press any key to terminate the current application.</p><p>* Press CTRL+ALT+DEL again to restart your computer. You will lose any unsaved information in all applications.</p><br><p>Press any key to continue _</p>`; body.innerHTML = ''; body.appendChild(bsod); bsod.style.display = 'block'; }}
+        function endingAsciiRain() { if (unlockEnding("ASCII Rain (Hard)")) { clearAllAnnoyances(); body.innerHTML = '<canvas id="matrix-canvas"></canvas>'; body.style.backgroundColor = 'black'; const canvas = document.getElementById('matrix-canvas'); const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%'; const fontSize = 16; const columns = canvas.width / fontSize; let drops = Array(Math.floor(columns)).fill(1); function drawMatrix() { ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#0F0'; ctx.font = `${fontSize}px monospace`; for (let i = 0; i < drops.length; i++) { const text = letters.charAt(Math.floor(Math.random() * letters.length)); ctx.fillText(text, i * fontSize, drops[i] * fontSize); if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0; drops[i]++; } } setInterval(drawMatrix, 33); }}
+        function endingPageFlip() { if (unlockEnding("Page Flipper (Medium)")) { clearAllAnnoyances(); body.style.perspective = '1000px'; contentWrapper.style.transition = 'transform 0.5s'; let flipped = false; setInterval(() => { flipped = !flipped; contentWrapper.style.transform = `rotateY(${flipped ? 180 : 0}deg)`; }, 500); }}
+        function endingInvert() { if (unlockEnding("Color Inversion (Easy)")) { clearAllAnnoyances(); document.documentElement.style.transition = 'filter 1s'; document.documentElement.style.filter = 'invert(1)'; }}
+        function endingTextScramble() { if (unlockEnding("Text Scrambler (Insane)")) { clearAllAnnoyances(); const chars = '!<>-_\\/[]{}—=+*^?#________'; document.querySelectorAll('p, h1, h2, button, label').forEach(el => { const originalText = el.textContent; let frame = 0; const interval = setInterval(() => { el.textContent = originalText.split('').map((char, index) => { if (index < frame) return originalText[index]; const randomChar = chars[Math.floor(Math.random() * chars.length)]; return char !== ' ' ? randomChar : ' '; }).join(''); if (frame >= originalText.length) clearInterval(interval); frame++; }, 50); }); }}
+        function endingFakePurchase() { if (unlockEnding("Accidental Purchase (Hard)")) { clearAllAnnoyances(); body.innerHTML = '<div style="text-align:center; padding-top:20vh; font-size: 2em; color: green;"><h1>Thank You!</h1><p>Your purchase of 1,000,000 rubber ducks has been confirmed.</p><p>A charge of $999,999.99 has been applied to your account.</p></div>'; setInterval(() => { const confetti = document.createElement('div'); confetti.textContent = '🎉'; confetti.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:-50px; font-size:${Math.random()*2+1}em; animation:fall 3s linear;`; document.body.appendChild(confetti); }, 100); const style = document.createElement('style'); style.innerHTML = `@keyframes fall{to{transform:translateY(110vh) rotate(360deg);}}`; document.head.appendChild(style); }}
+        function endingClippy() { if (unlockEnding("Clippy's Revenge (Hard)")) { clearAllAnnoyances(); body.innerHTML += `<div id="clippy-container"><div id="clippy-bubble"><p>It looks like you're trying to use this website. Would you like some help with that?</p></div><img id="clippy-img" src="https://placehold.co/150x150/cccccc/000000?text=📎" alt="Clippy"></div>`; const clippyImg = document.getElementById('clippy-container'); clippyImg.style.display = 'block'; clippyImg.addEventListener('click', () => { alert('I am trying to help! Please do not resist.'); }); }}
+        function endingPageReload() { if (unlockEnding("Groundhog Day (Medium)")) { window.location.reload(); }}
+        function endingRickroll() { if (unlockEnding("The Ultimate Betrayal (Medium)")) { window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; }}
+        function endingShareEmbed() { if (unlockEnding("Going Viral (Hard)")) { clearAllAnnoyances(); const metaTags = [ { property: 'og:title', content: "You WON'T BELIEVE What This Website Does!" }, { property: 'og:description', content: "I survived the most annoying website ever. Can you get all the endings?" }, { property: 'og:image', content: 'https://placehold.co/600x400/FF00FF/FFFFFF?text=Click+Me!' }, { property: 'og:url', content: window.location.href }, { name: 'theme-color', content: '#FF00FF' } ]; metaTags.forEach(tagInfo => { const meta = document.createElement('meta'); for (const key in tagInfo) { meta.setAttribute(key, tagInfo[key]); } document.head.appendChild(meta); }); const modal = document.createElement('div'); modal.id = 'share-modal'; modal.innerHTML = ` <h2>You've Gone Viral!</h2> <p>The page is now ready to be shared. Inflict this on your friends!</p> <p>${window.location.href}</p> <button id="copy-link-btn">Copy Link</button> `; body.appendChild(modal); document.getElementById('copy-link-btn').addEventListener('click', (e) => { e.target.innerText = "Copied! (Not really)"; }); }}
+        function endingKonami() { if (unlockEnding("Konami Code (Medium)")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: gold;"><h1>CHEAT MODE ACTIVATED</h1><p>+30 LIVES</p></div>`; }}
+        function endingWindowResize() { if (unlockEnding("Window Resizer (Easy)")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: cyan;"><h1>Stop touching me!</h1></div>`; }}
+        function endingClickSpam() { if (unlockEnding("Click Spammer (Medium)")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: orange;"><h1>Your mouse is on fire!</h1></div>`; }}
+        function endingWitchingHour() { if (unlockEnding("Witching Hour (Unreasonable)")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: purple;"><h1>You should be asleep.</h1></div>`; }}
+        function endingHyperspace() { if (unlockEnding("Hyperspace (Hard)")) { clearAllAnnoyances(); const hs = document.createElement('div'); hs.id = 'hyperspace'; body.appendChild(hs); hs.style.display = 'block'; const canvas = document.createElement('canvas'); hs.appendChild(canvas); const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; let stars = []; for(let i=0; i<500; i++) { stars.push({x: Math.random() * canvas.width, y: Math.random() * canvas.height, z: Math.random() * canvas.width}); } function drawHyperspace() { ctx.fillStyle = 'black'; ctx.fillRect(0,0,canvas.width, canvas.height); ctx.fillStyle = 'white'; stars.forEach(star => { star.z -= 2; if(star.z <= 0) { star.z = canvas.width; } let k = 128 / star.z; let px = star.x * k + canvas.width/2; let py = star.y * k + canvas.height/2; if(px > 0 && px < canvas.width && py > 0 && py < canvas.height) { let size = (1 - star.z / canvas.width) * 5; ctx.fillRect(px, py, size, size); } }); requestAnimationFrame(drawHyperspace); } drawHyperspace(); }}
+        function endingRedacted() { if (unlockEnding("REDACTED (Hard)")) { clearAllAnnoyances(); document.querySelectorAll('p, h1, h2, label, button').forEach(el => { el.style.color = 'black'; el.style.backgroundColor = 'black'; }); }}
+        function ending404() { if (unlockEnding("404 Not Found (Medium)")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em;"><h1>404</h1><p>Ending not found. Just kidding, this is the ending.</p></div>`; }}
+        function endingGeocities() { if (unlockEnding("GeoCities Mode (Hard)")) { clearAllAnnoyances(); body.style.background = "url('https://placehold.co/100x100/0000FF/FFFFFF?text=TILE') repeat"; body.innerHTML += `<marquee style="font-size: 3em; color: yellow; text-shadow: 2px 2px red;">WELCOME TO MY WEBSITE!!!</marquee><img src="https://placehold.co/200x50/FFFF00/000000?text=Under+Construction" style="display:block; margin: 20px auto;">`; }}
+        function endingStuckInThe90s() { if (unlockEnding("Stuck in the 90s (Hard)")) { clearAllAnnoyances(); body.innerHTML = `<iframe src="https://www.spacejam.com/1996/" style="width:100vw; height:100vh; border:none;"></iframe>`; }}
+        function endingPetTheButton() { if (unlockEnding("You Pet the Button (Medium)")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: pink;"><h1>The button is happy.</h1><p>It has stopped running away.</p></div>`; }}
+        function endingDoubleRainbow() { if (unlockEnding("Double Rainbow (Easy)")) { clearAllAnnoyances(); const h1 = document.createElement('h1'); h1.textContent = "Double Rainbow All The Way!"; h1.style.animation = 'rainbow-text 2s linear infinite'; const h2 = h1.cloneNode(true); h2.style.marginTop = '50px'; body.appendChild(h1); body.appendChild(h2); }}
+        function endingTooManyPopups() { if (unlockEnding("Popup Overload (Impossible)")) { clearAllAnnoyances(false); for(let i=0; i<50; i++) { setTimeout(createPopup, i * 50); } }}
+        function endingTheVoid() { if (unlockEnding("The Void (Insane)")) { clearAllAnnoyances(); body.style.transition = 'background-color 5s'; body.style.backgroundColor = 'black'; }}
+        function endingGravity() { if (unlockEnding("Gravity (Easy)")) { clearAllAnnoyances(); document.body.style.transition = 'transform 2s'; document.body.style.transform = 'rotate(180deg)'; }}
+        function endingCensored() { if (unlockEnding("Censored (Hard)")) { clearAllAnnoyances(); const beep = () => { if(!audioContext) return; const osc = audioContext.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(1000, audioContext.currentTime); osc.connect(audioContext.destination); osc.start(); osc.stop(audioContext.currentTime + 0.3); }; document.querySelectorAll('p, h1, h2, label, button').forEach(el => { const words = el.textContent.split(' '); el.textContent = words.map(w => Math.random() < 0.3 ? '████' : w).join(' '); }); setInterval(beep, 2000); }}
+        function endingLowQuality() { if (unlockEnding("Low Quality Mode (Hard)")) { clearAllAnnoyances(); document.documentElement.style.filter = 'blur(2px) contrast(2)'; }}
+        function endingFireworks() { if (unlockEnding("Fireworks (Hard)")) { clearAllAnnoyances(); body.style.backgroundColor = 'black'; setInterval(() => { const fw = document.createElement('div'); fw.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:${Math.random()*100}vh; width:5px; height:5px; background:white; border-radius:50%; box-shadow: 0 0 10px 5px white; animation: fw-explode 1s ease-out;`; body.appendChild(fw); setTimeout(()=>fw.remove(), 1000); }, 200); const style = document.createElement('style'); style.innerHTML = `@keyframes fw-explode{from{transform:scale(0); opacity:1;} to{transform:scale(30); opacity:0;}}`; document.head.appendChild(style); }}
+        function endingSolitaire() { if (unlockEnding("Solitaire Win (Hard)")) { clearAllAnnoyances(); body.style.backgroundColor = '#008000'; const deck = document.createElement('div'); deck.style.cssText = `width: 71px; height: 96px; border: 1px solid black; background: blue; position: absolute; top: 10px; left: 10px;`; body.appendChild(deck); let cards = []; for(let i=0; i<52; i++) { const card = document.createElement('div'); card.style.cssText = `width: 71px; height: 96px; border: 1px solid black; background: white; position: absolute; top: 10px; left: 10px; transition: all 1s;`; body.appendChild(card); cards.push(card); } cards.forEach((card, i) => { setTimeout(() => { card.style.top = `${Math.random() * (window.innerHeight - 100)}px`; card.style.left = `${Math.random() * (window.innerWidth - 100)}px`; card.style.transform = `rotate(${Math.random() * 360}deg)`; }, i * 50); }); }}
+        function endingTheLighthouse() { if (unlockEnding("The Lighthouse (Insane)")) { clearAllAnnoyances(); body.style.backgroundColor = 'black'; const beam = document.createElement('div'); beam.style.cssText = `position: fixed; top: 50%; left: 50%; width: 300vw; height: 200px; background: linear-gradient(to top, rgba(255,255,224,0.5), transparent); transform-origin: 0% 50%; animation: lighthouse-sweep 10s linear infinite;`; body.appendChild(beam); const style = document.createElement('style'); style.innerHTML = `@keyframes lighthouse-sweep{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}`; document.head.appendChild(style); }}
+        function endingTooFast() { if (unlockEnding("Too Fast (Medium)")) { clearAllAnnoyances(); document.documentElement.style.animation = 'shake 0.1s linear infinite'; const style = document.createElement('style'); style.innerHTML = `@keyframes shake{0%,100%{transform:translateX(0);} 25%{transform:translateX(5px);} 75%{transform:translateX(-5px);}}`; document.head.appendChild(style); }}
+        function endingTrueAnnoyance() { if (unlockEnding("True Annoyance (How the f...)")) { clearAllAnnoyances(false); document.getElementById('endings-tracker').remove(); alert("You thought unlocking endings would save you? The true ending was the friends we annoyed along the way."); }}
+        function endingDeveloper() { if (unlockEnding("Developer Mode (Hard)")) { clearAllAnnoyances(); body.innerHTML = `<pre style="color:lime; background:black; height:100vh; margin:0; padding:10px; font-family:monospace;">${document.documentElement.outerHTML.replace(/</g, '&lt;')}</pre>`; }}
+        function endingGoneFishing() { if (unlockEnding("Gone Fishing (Hard)")) { clearAllAnnoyances(); body.style.backgroundColor = '#87CEEB'; body.innerHTML = `<div style="text-align:center; padding-top:40vh; font-size: 3em;">Gone Fishing. Come back later.</div>`; }}
+        function endingFlatEarth() { if (unlockEnding("Flat Earth Mode (Insane)")) { clearAllAnnoyances(); body.style.perspective = 'none'; document.body.style.transform = 'none'; contentWrapper.style.transition = 'none'; contentWrapper.style.transform = 'none'; alert("The world is flat. All your fancy 3D effects are gone."); }}
+        function endingPiracy() { if (unlockEnding("Piracy is a Crime (Hard)")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 2em; color: red;"><h1>FBI WARNING</h1><p>This website has been seized by the Federal Bureau of Investigation for copyright infringement.</p></div>`; }}
+        function endingPotato() { if (unlockEnding("Potato Mode (Hard)")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:40vh;"><img src="https://placehold.co/200x200/DEB887/000000?text=🥔"></div>`; }}
+        function endingTheSun() { if (unlockEnding("The Sun (Hard)")) { clearAllAnnoyances(); body.style.transition = 'background-color 10s'; body.style.backgroundColor = 'white'; }}
+        function endingTheMoon() { if (unlockEnding("The Moon (Hard)")) { clearAllAnnoyances(); body.style.transition = 'background-color 10s'; body.style.backgroundColor = 'black'; document.body.innerHTML += `<div style="position:fixed; top:20px; right:20px; width:50px; height:50px; border-radius:50%; box-shadow: -10px 10px 0 0 white;"></div>`; }}
+        function endingMissingTexture() { if (unlockEnding("Missing Texture (Insane)")) { clearAllAnnoyances(); body.style.background = 'repeating-conic-gradient(#FF00FF 0% 25%, #000000 0% 50%) 50% / 20px 20px'; }}
+        function endingFinalDestination() { if (unlockEnding("Final Destination (Hard)")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:40vh; font-size: 3em; color: white; background: black; height: 100vh;">No items, Fox only, Final Destination.</div>`; }}
+        function endingTabAwayGlitch() { if (unlockEnding("Tab Away Glitch (Absurd)")) { clearAllAnnoyances(); body.style.overflow = 'hidden'; const elements = [...body.children]; body.innerHTML = ''; elements.forEach(el => body.appendChild(el)); body.style.position = 'relative'; elements.forEach(el => { el.style.position = 'absolute'; el.style.transition = 'top 2s, left 2s, transform 2s'; setTimeout(() => { el.style.top = `${Math.random() * 200 - 50}vh`; el.style.left = `${Math.random() * 200 - 50}vw`; el.style.transform = `rotate(${Math.random() * 1080 - 540}deg) scale(0.1)`; }, 100); }); }}
+        function endingParadox() { if (unlockEnding("Paradox (Unholy)")) { clearAllAnnoyances(); body.style.backgroundColor = 'black'; setInterval(() => { const glitch = document.createElement('div'); glitch.textContent = 'PARADOX DETECTED'; glitch.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:${Math.random()*100}vh; font-size:2em; color:red; transform: skew(${Math.random()*40-20}deg, ${Math.random()*40-20}deg);`; body.appendChild(glitch); setTimeout(()=>glitch.remove(), 500); }, 50); }}
 
         // --- Event Listeners for Endings ---
+        // Easy
         runawayBtn.addEventListener('click', endingFakeBSOD);
         rejectCookiesBtn.addEventListener('click', () => { if(cookieAcceptCount > 0) { endingRedacted(); } else { endingInvert(); } });
+        window.addEventListener('resize', () => { if (window.innerWidth < 500 || window.innerHeight < 500) { endingWindowResize(); }});
+        document.querySelectorAll('h1').forEach(h => h.addEventListener('mousedown', endingDoubleRainbow));
+        contentWrapper.addEventListener('wheel', e => { if (e.deltaY < 0 && contentWrapper.scrollTop === 0) { endingGravity(); }});
 
-        acceptCookiesBtn.addEventListener('click', () => {
-            cookieAcceptCount++;
-            if (cookieAcceptCount >= 7) {
-                endingPageReload();
-            } else {
-                cookieBanner.style.display = 'none';
-                setTimeout(() => { cookieBanner.style.display = 'block'; }, 2000);
-                acceptCookiesBtn.innerText = `Accept (${7 - cookieAcceptCount} left)`;
-            }
-        });
-
-        submitBtn.addEventListener('click', () => {
-            if (helpTyped) {
-                endingClippy();
-            } else if (moneyTyped && uncheckable.checked) {
-                endingFakePurchase();
-            } else if (shareTyped) {
-                endingShareEmbed();
-            } else if (uncheckable.checked) {
-                endingRickroll();
-            }
-        });
+        // Medium
+        document.addEventListener('click', () => { const now = Date.now(); if (now - lastClickTime < 200) { clickSpamCount++; if (clickSpamCount > 30) endingClickSpam(); } else { clickSpamCount = 0; } lastClickTime = now; });
+        runawayBtn.addEventListener('mouseover', () => { const now = Date.now(); if(now - (runawayBtn.lastMouseOver || 0) < 1000) { runawayBtn.petCount = (runawayBtn.petCount || 0) + 1; if(runawayBtn.petCount > 10) endingPetTheButton(); } else { runawayBtn.petCount = 0; } runawayBtn.lastMouseOver = now; });
+        acceptCookiesBtn.addEventListener('click', () => { cookieAcceptCount++; if (cookieAcceptCount >= 7) { endingPageReload(); } else { cookieBanner.style.display = 'none'; setTimeout(() => { cookieBanner.style.display = 'block'; }, 2000); acceptCookiesBtn.innerText = `Accept (${7 - cookieAcceptCount} left)`; } });
+        submitBtn.addEventListener('click', () => { if (uncheckable.checked && !helpTyped && !moneyTyped && !shareTyped) { endingRickroll(); }});
+        contentWrapper.addEventListener('scroll', () => { const atBottom = contentWrapper.scrollTop + contentWrapper.clientHeight >= contentWrapper.scrollHeight - 5; const atTop = contentWrapper.scrollTop === 0; if (atBottom) scrollState.bottom = true; if (atTop && scrollState.bottom) scrollState.top = true; if (atBottom && scrollState.top) endingContentMeltdown(); });
+        uncheckable.addEventListener('click', () => { checkboxClickCount++; if (checkboxClickCount >= 25) { endingPageFlip(); } else { if (uncheckable.checked) { setTimeout(() => { uncheckable.checked = false; }, 500); } } });
+        brokenImage.addEventListener('click', ending404);
         
-        contentWrapper.addEventListener('scroll', () => {
-            const atBottom = contentWrapper.scrollTop + contentWrapper.clientHeight >= contentWrapper.scrollHeight - 5;
-            const atTop = contentWrapper.scrollTop === 0;
-            if (atBottom) scrollState.bottom = true;
-            if (atTop && scrollState.bottom) scrollState.top = true;
-            if (atBottom && scrollState.top) endingContentMeltdown();
-        });
-
-        uncheckable.addEventListener('click', () => {
-            checkboxClickCount++;
-            if (checkboxClickCount >= 25) {
-                endingPageFlip();
-            } else {
-                 if (uncheckable.checked) { setTimeout(() => { uncheckable.checked = false; }, 500); }
-            }
-        });
-
-        nameInput.addEventListener('input', () => {
-            const val = nameInput.value.toLowerCase();
-            if (val.includes('matrix')) endingAsciiRain();
-            if (val.includes('help')) helpTyped = true; else helpTyped = false;
-            if (val.includes('share')) shareTyped = true; else shareTyped = false;
-        });
-        emailInput.addEventListener('input', () => {
-            if (emailInput.value.toLowerCase().includes('money')) moneyTyped = true; else moneyTyped = false;
-        });
-
-        document.querySelectorAll('.content p').forEach((p, index) => {
-            p.addEventListener('mousedown', () => { selectionAttempts.add(index); });
-            p.addEventListener('mousemove', () => { if (selectionAttempts.size >= 3) { endingTextScramble(); } });
-        });
-
-        // --- NEW EVENT LISTENERS ---
+        // Hard
         document.addEventListener('keydown', e => {
-            if (e.key === konamiCode[konamiProgress]) {
-                konamiProgress++;
-                if (konamiProgress === konamiCode.length) {
-                    endingKonami();
-                    konamiProgress = 0;
-                }
-            } else {
-                konamiProgress = 0;
-            }
-
+            if (e.key === konamiCode[konamiProgress]) { konamiProgress++; if (konamiProgress === konamiCode.length) { endingKonami(); konamiProgress = 0; } } else { konamiProgress = 0; }
             typedWord += e.key.toLowerCase();
             if (typedWord.length > 20) typedWord = typedWord.substring(typedWord.length - 20);
             if (typedWord.includes('boom')) endingFireworks();
-            if (typedWord.includes('potato')) endingPotato();
+            if (typedWord.includes('potato')) { endingPotato(); if(window.innerWidth < 600) endingLowQuality(); }
             if (typedWord.includes('piracy')) endingPiracy();
             if (typedWord.includes('solitaire')) endingSolitaire();
             if (typedWord.includes('dev')) endingDeveloper();
             if (typedWord.includes('fox')) endingFinalDestination();
+            if (typedWord.includes('geocities')) endingGeocities();
+            if (typedWord.includes('1996')) endingStuckInThe90s();
+            if (typedWord.includes('fish')) { annoyingForm.addEventListener('click', endingGoneFishing, {once: true}); }
+            if (typedWord.includes('day')) { runawayBtn.addEventListener('click', endingTheSun, {once: true}); }
+            if (typedWord.includes('night')) { annoyingForm.addEventListener('click', endingTheMoon, {once: true}); }
+            if (typedWord.includes('censor')) endingCensored();
+            if (typedWord.includes('fast')) { document.addEventListener('click', endingTooFast); }
         });
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth < 500 || window.innerHeight < 500) {
-                endingWindowResize();
-            }
-        });
-
-        document.addEventListener('click', () => {
-            const now = Date.now();
-            if (now - lastClickTime < 200) {
-                clickSpamCount++;
-                if (clickSpamCount > 30) endingClickSpam();
-            } else {
-                clickSpamCount = 0;
-            }
-            lastClickTime = now;
-        });
+        nameInput.addEventListener('input', () => { const val = nameInput.value.toLowerCase(); if (val.includes('matrix')) endingAsciiRain(); if (val.includes('help')) helpTyped = true; else helpTyped = false; if (val.includes('share')) shareTyped = true; else shareTyped = false; });
+        emailInput.addEventListener('input', () => { if (emailInput.value.toLowerCase().includes('money')) moneyTyped = true; else moneyTyped = false; });
+        submitBtn.addEventListener('click', () => { if (helpTyped) endingClippy(); if (moneyTyped && uncheckable.checked) endingFakePurchase(); if (shareTyped) endingShareEmbed(); });
         
-        runawayBtn.addEventListener('mouseover', () => {
-            const now = Date.now();
-            if(now - (runawayBtn.lastMouseOver || 0) < 1000) {
-                runawayBtn.petCount = (runawayBtn.petCount || 0) + 1;
-                if(runawayBtn.petCount > 10) endingPetTheButton();
-            } else {
-                runawayBtn.petCount = 0;
-            }
-            runawayBtn.lastMouseOver = now;
-        });
-        
-        // Check for URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('ending') && urlParams.get('ending') === '404') ending404();
-        if (urlParams.has('mode') && urlParams.get('mode') === '90s') endingStuckInThe90s();
-        if (urlParams.has('q') && urlParams.get('q') === 'void') endingTheVoid();
-        if (urlParams.has('planet') && urlParams.get('planet') === 'flat') endingFlatEarth();
+        // Insane
+        document.querySelectorAll('.content p').forEach((p, index) => { p.addEventListener('mousedown', () => { selectionAttempts.add(index); }); p.addEventListener('mousemove', () => { if (selectionAttempts.size >= 3) { endingTextScramble(); } }); });
+        let v_key_down_time = 0;
+        document.addEventListener('keydown', e => { if (typedWord.includes('void') && e.key === 'v') { if(v_key_down_time === 0) v_key_down_time = Date.now(); if(Date.now() - v_key_down_time > 3000) endingTheVoid(); } else { v_key_down_time = 0; }});
+        document.addEventListener('keyup', e => { if(e.key === 'v') v_key_down_time = 0; });
+        contentWrapper.addEventListener('wheel', e => { if(typedWord.includes('flat') && e.deltaX !== 0) endingFlatEarth(); });
+        let idle_word = '';
+        document.addEventListener('keydown', e => { idle_word += e.key.toLowerCase(); if(idle_word.includes('light')) { clearTimeout(idleTimer); idleTimer = setTimeout(endingTheLighthouse, 10000); }});
+        document.addEventListener('dragstart', (e) => { if(typedWord.includes('missing')) { e.preventDefault(); endingMissingTexture(); }});
+
+        // Unreasonable, Absurd, Unholy, Impossible, Godslayer, How the f...
+        emailInput.addEventListener('input', () => { const d = new Date(); const timeStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0'); if(emailInput.value === timeStr) endingWitchingHour(); });
+        document.addEventListener('visibilitychange', () => { if (document.hidden) { tabAwayTimer = setTimeout(endingTabAwayGlitch, 10000); } else { clearTimeout(tabAwayTimer); }});
+        window.addEventListener('storage', (e) => { if (e.key === 'annoying_website_tabs') { const tabs = JSON.parse(e.newValue || '[]'); if (tabs.length > 1) { endingParadox(); } }});
+        // Popup Overload is in createPopup function
+        // True Annoyance is in updateEndingsDisplay function
 
         // --- Core Annoyance Logic ---
         document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-        function updateFakeCursor() {
-            time += 0.1;
-            const joltX = (Math.random() - 0.5) * 25;
-            const joltY = (Math.random() - 0.5) * 25;
-            cursorX += (mouseX - cursorX) * 0.2 + joltX;
-            cursorY += (mouseY - cursorY) * 0.2 + joltY;
-            if (Math.random() < 0.002) {
-                cursorX = Math.random() * window.innerWidth;
-                cursorY = Math.random() * window.innerHeight;
-            }
-            cursorX = Math.max(0, Math.min(window.innerWidth - 30, cursorX));
-            cursorY = Math.max(0, Math.min(window.innerHeight - 30, cursorY));
-            fakeCursor.style.left = `${cursorX}px`;
-            fakeCursor.style.top = `${cursorY}px`;
-            const scale = 1 + Math.sin(time) * 0.5;
-            const rotation = time * 20;
-            fakeCursor.style.transform = `rotate(${rotation}deg) scale(${scale})`;
-            requestAnimationFrame(updateFakeCursor);
-        }
         function changeBackgroundColor() { body.style.backgroundColor = `rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`; }
         function moveRunawayButton() { const distance = Math.sqrt(Math.pow(runawayBtn.offsetLeft + runawayBtn.offsetWidth / 2 - mouseX, 2) + Math.pow(runawayBtn.offsetTop + runawayBtn.offsetHeight / 2 - mouseY, 2)); if (distance < 200) { runawayBtn.style.left = `${Math.random() * (window.innerWidth - 200)}px`; runawayBtn.style.top = `${Math.random() * (window.innerHeight - 100)}px`; }}
-        
         const popupMessages = [ "Have you tried turning it off and on again?", "Your PC might be at risk! Or it might not be.", "You've won a free virus!", "Error 404: Sanity not found.", "Are you still there?", "This popup is helping.", "Click 'X' to receive another popup!" ];
         const trapPopupMessages = [ "CRITICAL SYSTEM ALERT!", "Click here for a hint!", "Your prize is in this popup!", "FREE DOWNLOAD!", "Security Breach Detected!" ];
-        
-        function playDeathSound() {
-            if (!audioContext) return;
-            const osc = audioContext.createOscillator();
-            const gain = audioContext.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(440, audioContext.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.5);
-            gain.gain.setValueAtTime(0.2, audioContext.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
-            osc.connect(gain);
-            gain.connect(audioContext.destination);
-            osc.start();
-            osc.stop(audioContext.currentTime + 0.5);
-        }
-
-        function createPopup() {
-            if (!hasInteracted) return;
-            const popup = document.createElement('div');
-            popup.className = 'popup';
-            popup.style.left = `${Math.random() * (window.innerWidth - 350)}px`;
-            popup.style.top = `${Math.random() * (window.innerHeight - 250)}px`;
-            
-            const isTrap = Math.random() < 0.25; // 25% chance of being a trap
-            const message = isTrap 
-                ? trapPopupMessages[Math.floor(Math.random() * trapPopupMessages.length)]
-                : popupMessages[Math.floor(Math.random() * popupMessages.length)];
-
-            popup.innerHTML = `<h2>A Wild Notification Appears!</h2><p>${message}</p><div class="popup-close ${isTrap ? 'trap' : ''}">X</div>`;
-            popup.querySelector('.popup-close').addEventListener('click', (e) => {
-                e.stopPropagation();
-                popup.remove();
-                if (isTrap) {
-                    playDeathSound();
-                    popupCloseCount = 0; // Reset progress
-                    const resetMsg = document.createElement('div');
-                    resetMsg.textContent = "PROGRESS RESET!";
-                    resetMsg.style.cssText = `position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-size:3em; color:red; text-shadow: 2px 2px black; z-index: 10003;`;
-                    body.appendChild(resetMsg);
-                    setTimeout(() => resetMsg.remove(), 1500);
-                } else {
-                    popupCloseCount++;
-                    if (popupCloseCount >= 10) {
-                        endingElementInvasion();
-                    }
-                }
-                setTimeout(createPopup, 100);
-            });
-            body.appendChild(popup);
-            popup.style.display = 'block';
-            setTimeout(() => popup.remove(), 8000);
-        }
+        function playDeathSound() { if (!audioContext) return; const osc = audioContext.createOscillator(); const gain = audioContext.createGain(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(440, audioContext.currentTime); osc.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.5); gain.gain.setValueAtTime(0.2, audioContext.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5); osc.connect(gain); gain.connect(audioContext.destination); osc.start(); osc.stop(audioContext.currentTime + 0.5); }
+        function createPopup() { if (!hasInteracted) return; const popup = document.createElement('div'); popup.className = 'popup'; popup.style.left = `${Math.random() * (window.innerWidth - 350)}px`; popup.style.top = `${Math.random() * (window.innerHeight - 250)}px`; const isTrap = Math.random() < 0.25; const message = isTrap ? trapPopupMessages[Math.floor(Math.random() * trapPopupMessages.length)] : popupMessages[Math.floor(Math.random() * popupMessages.length)]; popup.innerHTML = `<h2>A Wild Notification Appears!</h2><p>${message}</p><div class="popup-close ${isTrap ? 'trap' : ''}">X</div>`; popup.querySelector('.popup-close').addEventListener('click', (e) => { e.stopPropagation(); popup.remove(); if (isTrap) { playDeathSound(); popupCloseCount = 0; trapPopupCloseCount++; if(trapPopupCloseCount >= 5) endingTooManyPopups(); const resetMsg = document.createElement('div'); resetMsg.textContent = "PROGRESS RESET!"; resetMsg.style.cssText = `position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-size:3em; color:red; text-shadow: 2px 2px black; z-index: 10003;`; body.appendChild(resetMsg); setTimeout(() => resetMsg.remove(), 1500); } else { popupCloseCount++; trapPopupCloseCount = 0; if (popupCloseCount >= 10) { endingElementInvasion(); } } setTimeout(createPopup, 100); }); body.appendChild(popup); popup.style.display = 'block'; setTimeout(() => popup.remove(), 8000); }
         function playAnnoyingMelody() { if (!audioContext) return; const notes = [261, 293, 329, 349, 392, 440, 493, 523]; let time = 0; for (let i = 0; i < 32; i++) { setTimeout(() => { const oscillator = audioContext.createOscillator(); const gainNode = audioContext.createGain(); oscillator.connect(gainNode); gainNode.connect(audioContext.destination); oscillator.type = ['sine', 'square', 'sawtooth', 'triangle'][Math.floor(Math.random() * 4)]; oscillator.frequency.setValueAtTime(notes[Math.floor(Math.random() * notes.length)], audioContext.currentTime); gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); oscillator.start(audioContext.currentTime); oscillator.stop(audioContext.currentTime + 0.1); }, time); time += 150; }}
         document.body.addEventListener('click', () => { if (!hasInteracted) { hasInteracted = true; audioContext = new (window.AudioContext || window.webkitAudioContext)(); setAnnoyingInterval(playAnnoyingMelody, 4800); playAnnoyingMelody(); }}, { once: true });
-        let targetScroll = 0, currentScroll = 0;
-        contentWrapper.addEventListener('wheel', e => { e.preventDefault(); targetScroll -= e.deltaY; targetScroll = Math.max(0, Math.min(contentWrapper.scrollHeight - contentWrapper.clientHeight, targetScroll)); }, { passive: false });
-        function laggyScroll() { currentScroll += (targetScroll - currentScroll) * 0.1; contentWrapper.scrollTop = currentScroll; requestAnimationFrame(laggyScroll); }
+        
         setAnnoyingInterval(() => { if (document.activeElement === nameInput || document.activeElement === emailInput) { if (Math.random() < 0.3) { nameInput.value = ''; emailInput.value = ''; }}}, 1000);
 
         // --- Start the Annoyances ---
         updateEndingsDisplay();
-        updateFakeCursor(); // Start the loop
-        laggyScroll(); // Start the loop
         setAnnoyingInterval(changeBackgroundColor, 200);
         setAnnoyingInterval(moveRunawayButton, 50);
         setAnnoyingInterval(createPopup, 4000);
         
-        // Special timed events
-        setInterval(() => {
-            const d = new Date();
-            if (d.getHours() === 3 && d.getMinutes() === 0) {
-                endingWitchingHour();
+        // Tab management for Paradox ending
+        function updateTabs() {
+            let tabs = JSON.parse(localStorage.getItem('annoying_website_tabs') || '[]');
+            if (!tabs.includes(tabId)) {
+                tabs.push(tabId);
             }
-        }, 60000); // Check every minute
-
+            if (tabs.length > 1) {
+                endingParadox();
+            }
+            localStorage.setItem('annoying_website_tabs', JSON.stringify(tabs));
+        }
+        window.addEventListener('beforeunload', () => {
+            let tabs = JSON.parse(localStorage.getItem('annoying_website_tabs') || '[]');
+            tabs = tabs.filter(id => id !== tabId);
+            localStorage.setItem('annoying_website_tabs', JSON.stringify(tabs));
+        });
+        updateTabs();
+        
         console.log("Good luck. You'll need it.");
     </script>
 </body>
