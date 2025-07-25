@@ -129,12 +129,14 @@
              max-width: 800px; margin: 0 auto; color: #333;
         }
         
-        .content h1 {
-            font-size: 3em; text-align: center; color: transparent;
+        .content h1, .content h2 {
+            text-align: center; color: transparent;
             background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
             -webkit-background-clip: text; background-clip: text;
             animation: rainbow-text 5s linear infinite;
         }
+        .content h1 { font-size: 3em; }
+        .content h2 { font-size: 2.5em; margin-top: 100px; }
 
         @keyframes rainbow-text {
             0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; }
@@ -166,7 +168,6 @@
         }
         #clippy-img { width: 100px; height: auto; display: block; margin: 10px auto 0; cursor: pointer; }
 
-        /* NEW: Share Embed Ending Styles */
         #share-modal {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 90%; max-width: 500px;
@@ -177,6 +178,11 @@
         #share-modal h2 { margin-top: 0; color: lime; }
         #share-modal p { word-break: break-all; background: #222; padding: 10px; border-radius: 5px; }
         #share-modal button { font-size: 18px; padding: 10px 20px; background: lime; color: black; border: none; border-radius: 5px; }
+        
+        #hyperspace {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 10000; display: none;
+        }
     </style>
 </head>
 <body>
@@ -198,6 +204,7 @@
             <button id="runaway-btn">Click Me for a Prize!</button>
             <p>Scrolling on our site is a revolutionary experience. We've inverted the standard paradigm to challenge your muscle memory. True enlightenment requires a journey to the bottom, a return to the top, and a final descent.</p>
             <p>Did we mention the colors? We believe in a vibrant web. A dynamic, ever-changing canvas of visual delight. If you feel a slight sense of unease, that's just joy overwhelming your senses. Trying to grasp the text in different places might change your perspective.</p>
+            
             <form id="annoying-form" onsubmit="return false;">
                 <h2>Sign up for our newsletter!</h2>
                 <p>Knowledge is power. Some keywords are more powerful than others. Maybe you need 'help', or perhaps you want to enter the 'matrix'. Maybe you want to 'share' your experience. Or maybe you just have 'money' on your mind. The right word combined with the right action is key.</p>
@@ -207,7 +214,17 @@
                 <br>
                 <button type="submit" id="submit-form">Subscribe!</button>
             </form>
-            <p>Please enjoy the complimentary background music. It has been scientifically engineered to enhance focus and improve mood. The track is a carefully curated masterpiece of auditory art. You're welcome.</p>
+
+            <h2>A Deeper Dive into User-Centric Design</h2>
+            <p>Our philosophy is simple: the user is the center of the universe. Every pixel, every line of code, every interaction is meticulously crafted to serve you, the user. We've conducted extensive A/B testing, focus groups, and psychic readings to determine the optimal user journey. What you see before you is the pinnacle of that research. It's not just a website; it's a conversation. A dance between human and machine. Sometimes the machine leads. Sometimes it trips you. That's part of the fun.</p>
+            <p>Some say that to truly understand a system, you must push its boundaries. Resize it, reshape it, see how it responds to pressure. Does it break? Or does it reveal something new? We encourage this kind of playful exploration. Our robust architecture is designed to handle... most things you can throw at it. Probably.</p>
+            <p>There are secrets hidden in the very fabric of this page. Patterns in the chaos. The classic masters knew of these patterns. Up, up, down, down... you know the rest. Or do you? Maybe the code has changed. Maybe it's different for every visitor. The only way to know is to try.</p>
+            <p>Consider the humble popup. Is it a nuisance? Or is it an opportunity? A fleeting chance to interact before it vanishes. Some are traps, some are treasures. A wise user learns to tell the difference. A foolish one just keeps clicking. Which one are you? The answer may lie in the rejection of what is offered.</p>
+            <p>We believe in giving back to the community. That's why we've hidden a special 'donation' feature somewhere on this page. If you can find it and prove your generosity, you might be rewarded. But be warned, true generosity is about giving without expecting anything in return. Especially when you're giving to us.</p>
+            <p>Time is a construct. On this website, it flows differently. Sometimes fast, sometimes slow. Pay attention to the passage of time. Certain events may only trigger at a specific moment. A witching hour, perhaps? Or maybe just when you're about to give up. Patience is a virtue, and we are here to teach it.</p>
+            <p>The URL in your address bar... is it just a location? Or is it a key? Sometimes, adding a little something extra to the end of a URL can unlock new paths. A query, a parameter, a secret word. The possibilities are as endless as your frustration.</p>
+            <p>Have you tried talking to the page? Not out loud, of course. We're not that advanced. Yet. But your keyboard is a powerful tool of communication. Typing isn't just for forms. The entire page is listening. What happens if you type 'abracadabra' or 'sesame'? Nothing? Oh well, it was worth a shot. Maybe try something more... explosive.</p>
+            <p>This is the end of the text. Or is it? If you've read this far, you are a true connoisseur of annoyance. Your reward is this final paragraph. There is no secret ending tied to reading this. We're not that cruel. Or are we? The only way to find out is to keep trying everything. Good luck. You'll need it more than ever.</p>
         </div>
     </div>
 
@@ -250,6 +267,11 @@
         let helpTyped = false;
         let moneyTyped = false;
         let shareTyped = false;
+        let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiProgress = 0;
+        let typedWord = '';
+        let lastClickTime = 0;
+        let clickSpamCount = 0;
 
         // --- Endings Management ---
         let unlockedEndings = JSON.parse(localStorage.getItem('unlockedEndings')) || [];
@@ -287,6 +309,7 @@
             }
         }
 
+        // --- Existing Endings ---
         function endingContentMeltdown() { if (unlockEnding("Content Meltdown")) { clearAllAnnoyances(); document.querySelectorAll('.content *').forEach(el => { el.style.transition = 'all 2s ease-in'; el.style.transform = `translate(${(Math.random() - 0.5) * 1000}px, ${(Math.random() - 0.5) * 1000}px) rotate(${Math.random() * 720}deg)`; el.style.opacity = '0'; el.style.fontSize = '1px'; }); }}
         function endingElementInvasion() { if (unlockEnding("Element Invasion")) { clearAllAnnoyances(); body.innerHTML = ''; body.style.backgroundColor = 'black'; setAnnoyingInterval(() => { const invader = document.createElement('div'); invader.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:${Math.random()*100}vh; width:${Math.random()*20+5}px; height:${Math.random()*20+5}px; background:rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255}); border-radius:50%; z-index:10001;`; body.appendChild(invader); }, 10); }}
         function endingFakeBSOD() { if (unlockEnding("System Crash (BSOD)")) { clearAllAnnoyances(); const bsod = document.createElement('div'); bsod.id = 'bsod'; bsod.innerHTML = `<h1> Windows </h1><p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) + 00010E36.</p><p>The current application will be terminated.</p><p>* Press any key to terminate the current application.</p><p>* Press CTRL+ALT+DEL again to restart your computer. You will lose any unsaved information in all applications.</p><br><p>Press any key to continue _</p>`; body.innerHTML = ''; body.appendChild(bsod); bsod.style.display = 'block'; }}
@@ -298,46 +321,43 @@
         function endingClippy() { if (unlockEnding("Clippy's Revenge")) { clearAllAnnoyances(); body.innerHTML += `<div id="clippy-container"><div id="clippy-bubble"><p>It looks like you're trying to use this website. Would you like some help with that?</p></div><img id="clippy-img" src="https://placehold.co/150x150/cccccc/000000?text=📎" alt="Clippy"></div>`; const clippyImg = document.getElementById('clippy-container'); clippyImg.style.display = 'block'; clippyImg.addEventListener('click', () => { alert('I am trying to help! Please do not resist.'); }); }}
         function endingPageReload() { if (unlockEnding("Groundhog Day")) { window.location.reload(); }}
         function endingRickroll() { if (unlockEnding("The Ultimate Betrayal")) { window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; }}
+        function endingShareEmbed() { if (unlockEnding("Going Viral")) { clearAllAnnoyances(); const metaTags = [ { property: 'og:title', content: "You WON'T BELIEVE What This Website Does!" }, { property: 'og:description', content: "I survived the most annoying website ever. Can you get all the endings?" }, { property: 'og:image', content: 'https://placehold.co/600x400/FF00FF/FFFFFF?text=Click+Me!' }, { property: 'og:url', content: window.location.href }, { name: 'theme-color', content: '#FF00FF' } ]; metaTags.forEach(tagInfo => { const meta = document.createElement('meta'); for (const key in tagInfo) { meta.setAttribute(key, tagInfo[key]); } document.head.appendChild(meta); }); const modal = document.createElement('div'); modal.id = 'share-modal'; modal.innerHTML = ` <h2>You've Gone Viral!</h2> <p>The page is now ready to be shared. Inflict this on your friends!</p> <p>${window.location.href}</p> <button id="copy-link-btn">Copy Link</button> `; body.appendChild(modal); document.getElementById('copy-link-btn').addEventListener('click', (e) => { e.target.innerText = "Copied! (Not really)"; }); }}
 
-        // NEW: Share Embed Ending
-        function endingShareEmbed() {
-            if (unlockEnding("Going Viral")) {
-                clearAllAnnoyances();
-                // Create and append meta tags
-                const metaTags = [
-                    { property: 'og:title', content: "You WON'T BELIEVE What This Website Does!" },
-                    { property: 'og:description', content: "I survived the most annoying website ever. Can you get all the endings?" },
-                    { property: 'og:image', content: 'https://placehold.co/600x400/FF00FF/FFFFFF?text=Click+Me!' },
-                    { property: 'og:url', content: window.location.href },
-                    { name: 'theme-color', content: '#FF00FF' }
-                ];
-                metaTags.forEach(tagInfo => {
-                    const meta = document.createElement('meta');
-                    for (const key in tagInfo) {
-                        meta.setAttribute(key, tagInfo[key]);
-                    }
-                    document.head.appendChild(meta);
-                });
-
-                // Show a fake share modal
-                const modal = document.createElement('div');
-                modal.id = 'share-modal';
-                modal.innerHTML = `
-                    <h2>You've Gone Viral!</h2>
-                    <p>The page is now ready to be shared. Inflict this on your friends!</p>
-                    <p>${window.location.href}</p>
-                    <button id="copy-link-btn">Copy Link</button>
-                `;
-                body.appendChild(modal);
-                document.getElementById('copy-link-btn').addEventListener('click', (e) => {
-                    e.target.innerText = "Copied! (Not really)";
-                });
-            }
-        }
+        // --- NEW ENDINGS ---
+        function endingKonami() { if (unlockEnding("Konami Code")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: gold;"><h1>CHEAT MODE ACTIVATED</h1><p>+30 LIVES</p></div>`; }}
+        function endingWindowResize() { if (unlockEnding("Window Resizer")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: cyan;"><h1>Stop touching me!</h1></div>`; }}
+        function endingClickSpam() { if (unlockEnding("Click Spammer")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: orange;"><h1>Your mouse is on fire!</h1></div>`; }}
+        function endingWitchingHour() { if (unlockEnding("Witching Hour")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: purple;"><h1>You should be asleep.</h1></div>`; }}
+        function endingHyperspace() { if (unlockEnding("Hyperspace")) { clearAllAnnoyances(); const hs = document.createElement('div'); hs.id = 'hyperspace'; body.appendChild(hs); hs.style.display = 'block'; const canvas = document.createElement('canvas'); hs.appendChild(canvas); const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; let stars = []; for(let i=0; i<500; i++) { stars.push({x: Math.random() * canvas.width, y: Math.random() * canvas.height, z: Math.random() * canvas.width}); } function drawHyperspace() { ctx.fillStyle = 'black'; ctx.fillRect(0,0,canvas.width, canvas.height); ctx.fillStyle = 'white'; stars.forEach(star => { star.z -= 2; if(star.z <= 0) { star.z = canvas.width; } let k = 128 / star.z; let px = star.x * k + canvas.width/2; let py = star.y * k + canvas.height/2; if(px > 0 && px < canvas.width && py > 0 && py < canvas.height) { let size = (1 - star.z / canvas.width) * 5; ctx.fillRect(px, py, size, size); } }); requestAnimationFrame(drawHyperspace); } drawHyperspace(); }}
+        function endingRedacted() { if (unlockEnding("REDACTED")) { clearAllAnnoyances(); document.querySelectorAll('p, h1, h2, label, button').forEach(el => { el.style.color = 'black'; el.style.backgroundColor = 'black'; }); }}
+        function ending404() { if (unlockEnding("404 Not Found")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em;"><h1>404</h1><p>Ending not found. Just kidding, this is the ending.</p></div>`; }}
+        function endingGeocities() { if (unlockEnding("GeoCities Mode")) { clearAllAnnoyances(); body.style.background = "url('https://placehold.co/100x100/0000FF/FFFFFF?text=TILE') repeat"; body.innerHTML += `<marquee style="font-size: 3em; color: yellow; text-shadow: 2px 2px red;">WELCOME TO MY WEBSITE!!!</marquee><img src="https://placehold.co/200x50/FFFF00/000000?text=Under+Construction" style="display:block; margin: 20px auto;">`; }}
+        function endingStuckInThe90s() { if (unlockEnding("Stuck in the 90s")) { clearAllAnnoyances(); body.innerHTML = `<iframe src="https://www.spacejam.com/1996/" style="width:100vw; height:100vh; border:none;"></iframe>`; }}
+        function endingPetTheButton() { if (unlockEnding("You Pet the Button")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 3em; color: pink;"><h1>The button is happy.</h1><p>It has stopped running away.</p></div>`; }}
+        function endingDoubleRainbow() { if (unlockEnding("Double Rainbow")) { clearAllAnnoyances(); const h1 = document.createElement('h1'); h1.textContent = "Double Rainbow All The Way!"; h1.style.animation = 'rainbow-text 2s linear infinite'; const h2 = h1.cloneNode(true); h2.style.marginTop = '50px'; body.appendChild(h1); body.appendChild(h2); }}
+        function endingTooManyPopups() { if (unlockEnding("Popup Overload")) { clearAllAnnoyances(false); for(let i=0; i<50; i++) { setTimeout(createPopup, i * 50); } }}
+        function endingTheVoid() { if (unlockEnding("The Void")) { clearAllAnnoyances(); body.style.transition = 'background-color 5s'; body.style.backgroundColor = 'black'; }}
+        function endingGravity() { if (unlockEnding("Gravity")) { clearAllAnnoyances(); document.body.style.transition = 'transform 2s'; document.body.style.transform = 'rotate(180deg)'; }}
+        function endingCensored() { if (unlockEnding("Censored")) { clearAllAnnoyances(); const beep = () => { if(!audioContext) return; const osc = audioContext.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(1000, audioContext.currentTime); osc.connect(audioContext.destination); osc.start(); osc.stop(audioContext.currentTime + 0.3); }; document.querySelectorAll('p, h1, h2, label, button').forEach(el => { const words = el.textContent.split(' '); el.textContent = words.map(w => Math.random() < 0.3 ? '████' : w).join(' '); }); setInterval(beep, 2000); }}
+        function endingLowQuality() { if (unlockEnding("Low Quality Mode")) { clearAllAnnoyances(); document.documentElement.style.filter = 'blur(2px) contrast(2)'; }}
+        function endingFireworks() { if (unlockEnding("Fireworks")) { clearAllAnnoyances(); body.style.backgroundColor = 'black'; setInterval(() => { const fw = document.createElement('div'); fw.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:${Math.random()*100}vh; width:5px; height:5px; background:white; border-radius:50%; box-shadow: 0 0 10px 5px white; animation: fw-explode 1s ease-out;`; body.appendChild(fw); setTimeout(()=>fw.remove(), 1000); }, 200); const style = document.createElement('style'); style.innerHTML = `@keyframes fw-explode{from{transform:scale(0); opacity:1;} to{transform:scale(30); opacity:0;}}`; document.head.appendChild(style); }}
+        function endingSolitaire() { if (unlockEnding("Solitaire Win")) { clearAllAnnoyances(); body.style.backgroundColor = '#008000'; const deck = document.createElement('div'); deck.style.cssText = `width: 71px; height: 96px; border: 1px solid black; background: blue; position: absolute; top: 10px; left: 10px;`; body.appendChild(deck); let cards = []; for(let i=0; i<52; i++) { const card = document.createElement('div'); card.style.cssText = `width: 71px; height: 96px; border: 1px solid black; background: white; position: absolute; top: 10px; left: 10px; transition: all 1s;`; body.appendChild(card); cards.push(card); } cards.forEach((card, i) => { setTimeout(() => { card.style.top = `${Math.random() * (window.innerHeight - 100)}px`; card.style.left = `${Math.random() * (window.innerWidth - 100)}px`; card.style.transform = `rotate(${Math.random() * 360}deg)`; }, i * 50); }); }}
+        function endingTheLighthouse() { if (unlockEnding("The Lighthouse")) { clearAllAnnoyances(); body.style.backgroundColor = 'black'; const beam = document.createElement('div'); beam.style.cssText = `position: fixed; top: 50%; left: 50%; width: 300vw; height: 200px; background: linear-gradient(to top, rgba(255,255,224,0.5), transparent); transform-origin: 0% 50%; animation: lighthouse-sweep 10s linear infinite;`; body.appendChild(beam); const style = document.createElement('style'); style.innerHTML = `@keyframes lighthouse-sweep{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}`; document.head.appendChild(style); }}
+        function endingTooFast() { if (unlockEnding("Too Fast")) { clearAllAnnoyances(); document.documentElement.style.animation = 'shake 0.1s linear infinite'; const style = document.createElement('style'); style.innerHTML = `@keyframes shake{0%,100%{transform:translateX(0);} 25%{transform:translateX(5px);} 75%{transform:translateX(-5px);}}`; document.head.appendChild(style); }}
+        function endingTrueAnnoyance() { if (unlockEnding("True Annoyance")) { clearAllAnnoyances(false); document.getElementById('endings-tracker').remove(); alert("You thought unlocking endings would save you? The true ending was the friends we annoyed along the way."); }}
+        function endingDeveloper() { if (unlockEnding("Developer Mode")) { clearAllAnnoyances(); body.innerHTML = `<pre style="color:lime; background:black; height:100vh; margin:0; padding:10px; font-family:monospace;">${document.documentElement.outerHTML.replace(/</g, '&lt;')}</pre>`; }}
+        function endingGoneFishing() { if (unlockEnding("Gone Fishing")) { clearAllAnnoyances(); body.style.backgroundColor = '#87CEEB'; body.innerHTML = `<div style="text-align:center; padding-top:40vh; font-size: 3em;">Gone Fishing. Come back later.</div>`; }}
+        function endingFlatEarth() { if (unlockEnding("Flat Earth Mode")) { clearAllAnnoyances(); body.style.perspective = 'none'; document.body.style.transform = 'none'; contentWrapper.style.transition = 'none'; contentWrapper.style.transform = 'none'; alert("The world is flat. All your fancy 3D effects are gone."); }}
+        function endingPiracy() { if (unlockEnding("Piracy is a Crime")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:20vh; font-size: 2em; color: red;"><h1>FBI WARNING</h1><p>This website has been seized by the Federal Bureau of Investigation for copyright infringement.</p></div>`; }}
+        function endingPotato() { if (unlockEnding("Potato Mode")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:40vh;"><img src="https://placehold.co/200x200/DEB887/000000?text=🥔"></div>`; }}
+        function endingTheSun() { if (unlockEnding("The Sun")) { clearAllAnnoyances(); body.style.transition = 'background-color 10s'; body.style.backgroundColor = 'white'; }}
+        function endingTheMoon() { if (unlockEnding("The Moon")) { clearAllAnnoyances(); body.style.transition = 'background-color 10s'; body.style.backgroundColor = 'black'; document.body.innerHTML += `<div style="position:fixed; top:20px; right:20px; width:50px; height:50px; border-radius:50%; box-shadow: -10px 10px 0 0 white;"></div>`; }}
+        function endingMissingTexture() { if (unlockEnding("Missing Texture")) { clearAllAnnoyances(); body.style.background = 'repeating-conic-gradient(#FF00FF 0% 25%, #000000 0% 50%) 50% / 20px 20px'; }}
+        function endingFinalDestination() { if (unlockEnding("Final Destination")) { clearAllAnnoyances(); body.innerHTML = `<div style="text-align:center; padding-top:40vh; font-size: 3em; color: white; background: black; height: 100vh;">No items, Fox only, Final Destination.</div>`; }}
 
         // --- Event Listeners for Endings ---
         runawayBtn.addEventListener('click', endingFakeBSOD);
-        rejectCookiesBtn.addEventListener('click', endingInvert);
+        rejectCookiesBtn.addEventListener('click', () => { if(cookieAcceptCount > 0) { endingRedacted(); } else { endingInvert(); } });
 
         acceptCookiesBtn.addEventListener('click', () => {
             cookieAcceptCount++;
@@ -393,6 +413,63 @@
             p.addEventListener('mousedown', () => { selectionAttempts.add(index); });
             p.addEventListener('mousemove', () => { if (selectionAttempts.size >= 3) { endingTextScramble(); } });
         });
+
+        // --- NEW EVENT LISTENERS ---
+        document.addEventListener('keydown', e => {
+            if (e.key === konamiCode[konamiProgress]) {
+                konamiProgress++;
+                if (konamiProgress === konamiCode.length) {
+                    endingKonami();
+                    konamiProgress = 0;
+                }
+            } else {
+                konamiProgress = 0;
+            }
+
+            typedWord += e.key.toLowerCase();
+            if (typedWord.length > 20) typedWord = typedWord.substring(typedWord.length - 20);
+            if (typedWord.includes('boom')) endingFireworks();
+            if (typedWord.includes('potato')) endingPotato();
+            if (typedWord.includes('piracy')) endingPiracy();
+            if (typedWord.includes('solitaire')) endingSolitaire();
+            if (typedWord.includes('dev')) endingDeveloper();
+            if (typedWord.includes('fox')) endingFinalDestination();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 500 || window.innerHeight < 500) {
+                endingWindowResize();
+            }
+        });
+
+        document.addEventListener('click', () => {
+            const now = Date.now();
+            if (now - lastClickTime < 200) {
+                clickSpamCount++;
+                if (clickSpamCount > 30) endingClickSpam();
+            } else {
+                clickSpamCount = 0;
+            }
+            lastClickTime = now;
+        });
+        
+        runawayBtn.addEventListener('mouseover', () => {
+            const now = Date.now();
+            if(now - (runawayBtn.lastMouseOver || 0) < 1000) {
+                runawayBtn.petCount = (runawayBtn.petCount || 0) + 1;
+                if(runawayBtn.petCount > 10) endingPetTheButton();
+            } else {
+                runawayBtn.petCount = 0;
+            }
+            runawayBtn.lastMouseOver = now;
+        });
+        
+        // Check for URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('ending') && urlParams.get('ending') === '404') ending404();
+        if (urlParams.has('mode') && urlParams.get('mode') === '90s') endingStuckInThe90s();
+        if (urlParams.has('q') && urlParams.get('q') === 'void') endingTheVoid();
+        if (urlParams.has('planet') && urlParams.get('planet') === 'flat') endingFlatEarth();
 
         // --- Core Annoyance Logic ---
         document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
@@ -486,6 +563,15 @@
         setAnnoyingInterval(changeBackgroundColor, 200);
         setAnnoyingInterval(moveRunawayButton, 50);
         setAnnoyingInterval(createPopup, 4000);
+        
+        // Special timed events
+        setInterval(() => {
+            const d = new Date();
+            if (d.getHours() === 3 && d.getMinutes() === 0) {
+                endingWitchingHour();
+            }
+        }, 60000); // Check every minute
+
         console.log("Good luck. You'll need it.");
     </script>
 </body>
